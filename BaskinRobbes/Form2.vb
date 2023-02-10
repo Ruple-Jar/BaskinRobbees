@@ -1,11 +1,21 @@
 ﻿Imports System.Threading
 
 Public Class Form2
-    Public playerfirst As Boolean
     Private Const MaxNumber As Integer = 3
     Private CurrentNumber As Integer = 0
+    Private BackNumber As Integer
     Private CurrentTurn As Integer ' 1 : ai, 2 : 사람
     Private IsGameEnd As Boolean = False
+
+    Private Function ComputerRollANumber() As Integer
+        If Number - BacksNumber = 1 Then
+            Return Number() + 3
+        ElseIf Number - BacksNumber = 2 Then
+            Return Number() + 2
+        ElseIf Number - BacksNumber = 3 Then
+            Return Number() + 1
+        End If
+    End Function
 
     Protected Property Number() As Integer
         Set(ByVal Number As Integer)
@@ -13,6 +23,15 @@ Public Class Form2
         End Set
         Get
             Return CurrentNumber
+        End Get
+    End Property
+
+    Protected Property BacksNumber() As Integer
+        Set(ByVal Number As Integer)
+            BackNumber = Number
+        End Set
+        Get
+            Return BackNumber
         End Get
     End Property
 
@@ -32,11 +51,16 @@ Public Class Form2
 
 
     Private Sub Form2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        If Form1.Yes.Checked Then
+            Turn = 2
+        Else
+            Turn = 1
+        End If
         GameLoop()
     End Sub
 
     Private Sub LabelChanger(ByVal str As String)
-        Information.Text = str
+        Label.Text = str
     End Sub
 
     Private Function GetLastnumber(ByVal str As String) As Integer
@@ -52,18 +76,25 @@ Public Class Form2
 
     Private Sub GameLoop()
         While IsGameEnd = False
-            If playerfirst Or Turn = 2 Then
-                If playerfirst = True Then
-                    playerfirst = False
-                End If
+            BacksNumber = Number()
+            If Turn = 2 Then
                 Dim Answar = InputBox("당신 차례입니다. 식을 x, x, x 형식으로 입력하세요.")
                 Dim LastNumber As Integer = GetLastnumber(Answar)
                 Dim Firstnumber As Integer = GetFirstNumber(Answar)
-                If Firstnumber - 1 <> Number() Or LastNumber > Number() + 3 Then
-                    Dim Answawr2 = InputBox("잘못된 형식입니다. 다시 입력해주세요.")
-                End If
+                Dim Answar2
+                While Firstnumber - 1 <> Number() Or LastNumber > Number() + MaxNumber
+                    Answar2 = InputBox("잘못된 형식입니다. 다시 입력해주세요.")
+                    LastNumber = GetLastnumber(Answar2)
+                    Firstnumber = GetFirstNumber(Answar2)
+                End While
+                Number = LastNumber
+                LabelChanger(Number.ToString)
+                Turn = 1
             ElseIf Turn = 1 Then
-
+                MsgBox("컴퓨터가 숫자를 고릅니다..")
+                Dim ComputersNumber As Integer = ComputerRollANumber()
+                LabelChanger(ComputersNumber.ToString)
+                Turn = 2
             End If
         End While
     End Sub

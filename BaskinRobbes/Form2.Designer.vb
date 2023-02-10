@@ -24,6 +24,7 @@ Partial Class Form2
     Private Sub InitializeComponent()
         Me.Information = New System.Windows.Forms.Label()
         Me.Label = New System.Windows.Forms.Label()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Information
@@ -46,11 +47,21 @@ Partial Class Form2
         Me.Label.TabIndex = 1
         Me.Label.Text = "Label1"
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(185, 216)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 2
+        Me.Button1.Text = "게임시작"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'Form2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(468, 351)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Label)
         Me.Controls.Add(Me.Information)
         Me.Name = "Form2"
@@ -62,4 +73,5 @@ Partial Class Form2
 
     Friend WithEvents Information As Label
     Friend WithEvents Label As Label
+    Friend WithEvents Button1 As Button
 End Class
